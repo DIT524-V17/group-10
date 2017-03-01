@@ -1,5 +1,6 @@
 package martincukal.led;
 
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,8 +8,13 @@ import android.view.MenuItem;
 
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,6 +22,7 @@ import android.app.ProgressDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.os.AsyncTask;
+import android.widget.ToggleButton;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -23,15 +30,17 @@ import java.util.UUID;
 
 public class ledControl extends AppCompatActivity {
 
-    Button ON, OFF, disconnect;
+    Button disconnect;
+    ToggleButton obstacleA;
     SeekBar brightness;
     TextView infoTxt;
     String address = null;
+    ImageButton forward,backward,left,right,stop;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
     private boolean isBtConnected = false;
-    //SPP UUID. Look for it
+    private ImageView stopSign;
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     @Override
@@ -45,30 +54,133 @@ public class ledControl extends AppCompatActivity {
         setContentView(R.layout.activity_led_control);
 
         //call the widgtes
-        ON = (Button) findViewById(R.id.button2);
-        OFF = (Button) findViewById(R.id.button3);
+        forward = (ImageButton) findViewById(R.id.imgForward);
+        backward = (ImageButton) findViewById(R.id.imgBackward);
+        left = (ImageButton) findViewById(R.id.imgLeft);
+        right = (ImageButton) findViewById(R.id.imgRight);
+        stop = (ImageButton) findViewById(R.id.imgStop);
         disconnect = (Button) findViewById(R.id.button4);
         brightness = (SeekBar) findViewById(R.id.seekBar);
         infoTxt = (TextView) findViewById(R.id.lumn);
-
+        stopSign = (ImageView) findViewById(R.id.stopSign);
+        obstacleA = (ToggleButton) findViewById(R.id.tgl);
         new ConnectBT().execute(); //Call the class to connect
 
+        stopSign.setVisibility(View.INVISIBLE);
+        if (recieveObs()== "OB#"){
+            stopSign.setVisibility(View.VISIBLE);
+        }
+
+
         //commands to be sent to bluetooth
-        ON.setOnClickListener(new View.OnClickListener() {
+        forward.setOnTouchListener(new  View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                turnOnLed();      //method to turn on
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Do something
+                        moveforward();
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        // No longer down
+                        stop();
+                        return true;
+                }
+                return false;
+            }
+
+        });
+
+
+        backward.setOnTouchListener(new  View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Do something
+                        movebackward();
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        // No longer down
+                        stop();
+                        return true;
+                }
+                return false;
+            }
+
+        });
+
+        left.setOnTouchListener(new  View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Do something
+                        moveleft();
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        // No longer down
+                        stop();
+                        return true;
+                }
+                return false;
+            }
+
+        });
+
+        right.setOnTouchListener(new  View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Do something
+                        moveright();
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        // No longer down
+                        stop();
+                        return true;
+                }
+                return false;
+            }
+
+        });
+        stop.setOnTouchListener(new  View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Do something
+                        stop();
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        // No longer down
+                        stop();
+                        return true;
+                }
+                return false;
+            }
+
+        });
+
+        obstacleA.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b){
+                    obsON();
+                }
+                else {
+                    obsOFF();
+                }
             }
         });
 
-        OFF.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                turnOffLed();   //method to turn off
-            }
-        });
-
-        disconnect.setOnClickListener(new View.OnClickListener() {
+        disconnect.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 Disconnect(); //close connection
@@ -113,7 +225,7 @@ public class ledControl extends AppCompatActivity {
         finish(); //return to the first layout
 
     }
-    private void turnOffLed()
+    private void stop()
     {
         if (btSocket!=null)
         {
@@ -128,7 +240,7 @@ public class ledControl extends AppCompatActivity {
         }
     }
 
-    private void turnOnLed()
+    private void moveforward()
     {
         if (btSocket!=null)
         {
@@ -142,6 +254,98 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
+    private void movebackward()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("BO".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void moveleft()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("LE".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void moveright()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("RI".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void obsON()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("ON".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void obsOFF()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("OF".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private String recieveObs()
+    {
+        String input ="";
+        if (btSocket!=null)
+        {
+            try
+            {
+             input = btSocket.getInputStream().toString();
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+        return input;
+    }
+
 
     // fast way to call Toast
     private void msg(String s)
