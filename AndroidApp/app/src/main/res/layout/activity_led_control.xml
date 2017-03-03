@@ -12,39 +12,10 @@
     tools:context="martincukal.led.ledControl">
 
     <TextView
-        android:text="Speed Control"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/seekBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="30dp"
-        android:id="@+id/textView"
-        android:textSize="24sp" />
-
-    <TextView
         android:text="Movement Control"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lumn" />
-
-    <ImageView
-        app:srcCompat="@mipmap/ic_launcher"
-        android:id="@+id/stopSign"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignLeft="@+id/imgForward"
-        android:layout_alignStart="@+id/imgForward" />
-
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekBar"
-        android:layout_marginBottom="19dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <ImageButton
         android:layout_width="wrap_content"
@@ -99,17 +70,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewObstacle"
-        android:layout_above="@+id/tgl"
+        android:layout_below="@+id/imgBackward"
         android:layout_toRightOf="@+id/lumn"
-        android:layout_toEndOf="@+id/lumn" />
+        android:layout_toEndOf="@+id/lumn"
+        android:layout_marginTop="42dp" />
 
     <ToggleButton
         android:text="ToggleButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tgl"
-        android:layout_marginBottom="12dp"
-        android:layout_above="@+id/button4"
+        android:layout_below="@+id/txtViewObstacle"
         android:layout_alignLeft="@+id/imgBackward"
         android:layout_alignStart="@+id/imgBackward" />
 
@@ -118,7 +89,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/button4"
-        android:layout_above="@+id/textView"
+        android:layout_below="@+id/tgl"
         android:layout_centerHorizontal="true" />
+
+    <ProgressBar
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="39dp"
+        android:id="@+id/speed"
+        android:layout_alignRight="@+id/button4"
+        android:layout_alignEnd="@+id/button4"
+        android:layout_alignLeft="@+id/button4"
+        android:layout_alignStart="@+id/button4" />
+
+    <TextView
+        android:text="Speed "
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/speed"
+        android:layout_alignRight="@+id/imgBackward"
+        android:layout_alignEnd="@+id/imgBackward"
+        android:layout_marginBottom="11dp"
+        android:id="@+id/txtSpeed"
+        android:textSize="18sp"
+        android:textStyle="normal|bold" />
+
+    <Button
+        android:text="-"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/imgLeft"
+        android:layout_toStartOf="@+id/imgLeft"
+        android:layout_marginBottom="17dp"
+        android:id="@+id/minus"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textSize="36sp" />
+
+    <Button
+        android:text="+"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/minus"
+        android:id="@+id/plus"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:textSize="36sp"
+        android:layout_toRightOf="@+id/speed"
+        android:layout_toEndOf="@+id/speed" />
 
 </RelativeLayout>

@@ -1,6 +1,5 @@
 package martincukal.led;
 
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,8 +13,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.SeekBar;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.app.ProgressDialog;
@@ -30,17 +28,19 @@ import java.util.UUID;
 
 public class ledControl extends AppCompatActivity {
 
-    Button disconnect;
+    Button disconnect,incSpeed,decSpeed;
     ToggleButton obstacleA;
-    SeekBar brightness;
     TextView infoTxt;
     String address = null;
     ImageButton forward,backward,left,right,stop;
+    ProgressBar speed;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
+    int carSpeed = 20;
+    static int newSpeed;
+    static int spdCount=1;
     private boolean isBtConnected = false;
-    private ImageView stopSign;
     static final UUID myUUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
 
     @Override
@@ -60,17 +60,18 @@ public class ledControl extends AppCompatActivity {
         right = (ImageButton) findViewById(R.id.imgRight);
         stop = (ImageButton) findViewById(R.id.imgStop);
         disconnect = (Button) findViewById(R.id.button4);
-        brightness = (SeekBar) findViewById(R.id.seekBar);
         infoTxt = (TextView) findViewById(R.id.lumn);
-        stopSign = (ImageView) findViewById(R.id.stopSign);
         obstacleA = (ToggleButton) findViewById(R.id.tgl);
+        incSpeed = (Button) findViewById(R.id.plus);
+        decSpeed = (Button) findViewById(R.id.minus);
+        speed = (ProgressBar) findViewById(R.id.speed);
+
         new ConnectBT().execute(); //Call the class to connect
 
-        stopSign.setVisibility(View.INVISIBLE);
-        if (recieveObs()== "OB#"){
-            stopSign.setVisibility(View.VISIBLE);
-        }
+        speed.setMax(100); //setting maximum value of speed progress bar to 100
+        speed.setProgress(carSpeed); //initial starting speed of 20
 
+        newSpeed = carSpeed;
 
         //commands to be sent to bluetooth
         forward.setOnTouchListener(new  View.OnTouchListener() {
@@ -149,6 +150,7 @@ public class ledControl extends AppCompatActivity {
             }
 
         });
+
         stop.setOnTouchListener(new  View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -187,29 +189,69 @@ public class ledControl extends AppCompatActivity {
             }
         });
 
-        brightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+        incSpeed.setOnClickListener(new OnClickListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (fromUser == true) {
-                    infoTxt.setText(String.valueOf(progress));
-                    try {
-                        btSocket.getOutputStream().write(String.valueOf(progress).getBytes());
-                    } catch (IOException e) {
+            public void onClick(View v) {
 
+                if (spdCount==5){
+
+                }
+                else {
+                     newSpeed =newSpeed +20;
+                    speed.setProgress(newSpeed);
+                    spdCount++;
+                    if(spdCount == 1){
+                        speed1();
                     }
+                    else if(spdCount == 2){
+                        speed2();
+                    }
+                    else if(spdCount == 3){
+                        speed3();
+                    }
+                    else if(spdCount == 4){
+                        speed4();
+                    }
+                    else if(spdCount == 5){
+                        speed5();
+                    }
+
                 }
             }
+        });
 
+        decSpeed.setOnClickListener(new OnClickListener() {
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+            public void onClick(View v) {
 
-            }
+                if (spdCount==1){
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
+                }
+                else {
+                    spdCount--;
+                    newSpeed =newSpeed -20;
+                    speed.setProgress(newSpeed);
+                    if(spdCount == 1){
+                        speed1();
+                    }
+                    else if(spdCount == 2){
+                        speed2();
+                    }
+                    else if(spdCount == 3){
+                        speed3();
+                    }
+                    else if(spdCount == 4){
+                        speed4();
+                    }
+                    else if(spdCount == 5){
+                        speed5();
+                    }
 
+                }
             }
         });
+
+
     }
     private void Disconnect()
     {
@@ -329,23 +371,77 @@ public class ledControl extends AppCompatActivity {
         }
     }
 
-    private String recieveObs()
+    private void speed1()
     {
-        String input ="";
         if (btSocket!=null)
         {
             try
             {
-             input = btSocket.getInputStream().toString();
+                btSocket.getOutputStream().write("S1".toString().getBytes());
             }
             catch (IOException e)
             {
                 msg("Error");
             }
         }
-        return input;
     }
 
+    private void speed2()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("S2".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+    private void speed3()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("S3".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+    private void speed4()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("S4".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+    private void speed5()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("S5".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
 
     // fast way to call Toast
     private void msg(String s)
