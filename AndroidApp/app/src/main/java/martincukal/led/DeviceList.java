@@ -1,3 +1,6 @@
+/*
+Creator Martin Chukaleski February/2017
+ */
 package martincukal.led;
 
 import android.support.v7.app.AppCompatActivity;
