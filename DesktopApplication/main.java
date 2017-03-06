@@ -26,7 +26,6 @@ public class main extends JFrame{
 	private boolean menu1 = true;
 	private boolean menuCont = false;
 	
-	private boolean CarConnected = false;
 	private boolean carForward = false;
 	private boolean carLeft = false;
 	private boolean carRight = false;
@@ -88,7 +87,6 @@ public class main extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				connectionPic.setIcon(new ImageIcon(main.class.getResource("/resource/conn.png")));
-				CarConnected = true;
 				btnStart.setVisible(true);
 			}
 		});
@@ -132,7 +130,7 @@ public class main extends JFrame{
 		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 28));
 		btnStart.setVisible(false);
 		btnStart.setBackground(Color.GREEN);
-		btnStart.setBounds(333, 341, 168, 96);
+		btnStart.setBounds(703, 216, 260, 145);
 		
 		contentPane.add(btnStart);
 	}
@@ -151,6 +149,6 @@ public class main extends JFrame{
 	}
 	public void disconnectController(){
 		connectionPic.setIcon(new ImageIcon(main.class.getResource("/resource/notcon.png")));
-		CarConnected = false;
+		btnStart.setVisible(false);
 	}
 }

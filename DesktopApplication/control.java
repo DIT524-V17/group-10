@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JButton;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JLabel;
 
 public class control extends JFrame{
 
@@ -18,6 +19,12 @@ public class control extends JFrame{
 	private boolean carLeft = false;
 	private boolean carRight = false;
 	private boolean carBack = false;
+	private boolean prevention = true;
+	private boolean Fkey = false;
+	
+	private int speed = 40;
+	private JLabel lblSpeed = new JLabel("Speed: " + speed);
+	private JLabel lblPrevention = new JLabel("Prevention: " + prevention);
 
 	/**
 	 * Launch the application.
@@ -39,12 +46,19 @@ public class control extends JFrame{
 	 * Create the frame.
 	 */
 	public control() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(500, 400, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		lblSpeed.setBounds(15, 54, 69, 20);
+		contentPane.add(lblSpeed);
+		
+
+		lblPrevention.setBounds(15, 89, 102, 20);
+		contentPane.add(lblPrevention);
 	}
 	public void processKeyEvent(KeyEvent e) {
 		if (e.getID() == KeyEvent.KEY_PRESSED) {
@@ -64,6 +78,22 @@ public class control extends JFrame{
 				if(!carBack) System.out.println("Car is going in reverse");
 				carBack = true;
 			}
+			if(e.getKeyCode() == KeyEvent.VK_Z){
+				if(speed > 20) speed -= 20;
+				lblSpeed.setText("Speed: " + speed);
+			}
+			if (e.getKeyCode() == KeyEvent.VK_X){
+				if (speed < 100) speed += 20;
+				lblSpeed.setText("Speed: " + speed);
+			}
+			if (e.getKeyCode() == KeyEvent.VK_F){
+				if(!Fkey) {
+					if(prevention) prevention = false;
+					else prevention = true;
+					lblPrevention.setText("Prevention: " + prevention);
+				}
+				Fkey = true;
+			}
 
 		} else if (e.getID() == KeyEvent.KEY_RELEASED) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
@@ -82,10 +112,11 @@ public class control extends JFrame{
 				System.out.println("Car stopped going in reverse");
 				carRight = false;
 			}
+			if(e.getKeyCode() == KeyEvent.VK_F){
+				Fkey = false;
+			}
 			
 		} else {
-
 		}
 	}
-
 }
