@@ -30,7 +30,7 @@ public class ledControl extends AppCompatActivity {
 
     Button disconnect,incSpeed,decSpeed;
     ToggleButton obstacleA;
-    TextView infoTxt;
+    TextView infoTxt,txtspeed;
     String address = null;
     ImageButton forward,backward,left,right,stop;
     ProgressBar speed;
@@ -65,6 +65,7 @@ public class ledControl extends AppCompatActivity {
         incSpeed = (Button) findViewById(R.id.plus);
         decSpeed = (Button) findViewById(R.id.minus);
         speed = (ProgressBar) findViewById(R.id.speed);
+        txtspeed = (TextView) findViewById(R.id.speedtxt);
 
         new ConnectBT().execute(); //Call the class to connect
 
@@ -202,12 +203,15 @@ public class ledControl extends AppCompatActivity {
                     spdCount++;
                     if(spdCount == 1){
                         speed1();
+                        txtspeed.setText("LOW");
                     }
                     else if(spdCount == 2){
                         speed2();
+                        txtspeed.setText("MEDIUM");
                     }
                     else if(spdCount == 3){
                         speed3();
+                        txtspeed.setText("HIGH");
                     }
 
                 }
@@ -227,12 +231,15 @@ public class ledControl extends AppCompatActivity {
                     speed.setProgress(newSpeed);
                     if(spdCount == 1){
                         speed1();
+                        txtspeed.setText("LOW");
                     }
                     else if(spdCount == 2){
                         speed2();
+                        txtspeed.setText("MEDIUM");
                     }
                     else if(spdCount == 3){
                         speed3();
+                        txtspeed.setText("HIGH");
                     }
 
                 }
@@ -402,6 +409,7 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
+
 
     // fast way to call Toast
     private void msg(String s)
