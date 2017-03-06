@@ -7,7 +7,7 @@ char command;
 String string;
 boolean ledon = false;
 #define led 5
-static int speedd = 30;
+int speedd = 33;
 
 
   void setup()
@@ -17,12 +17,12 @@ static int speedd = 30;
     gyro.attach();
     gyro.begin();
     car.begin(gyro);
-    speedd = 30;
+    
   }
 
   void loop()
   {  
-    static int speedd = 30;
+    
     
     if (Serial.available() > 0) 
     {string = "";}
@@ -76,37 +76,16 @@ static int speedd = 30;
     }
      if(string =="S1")
     {
-        speedd=30;
+        speedd=33;
     }
     if(string =="S2")
     {
-        speedd=46;
+        speedd=66;
     }
     if(string =="S3")
     {
-       speedd=62;
-    }
-    if(string =="S4")
-    {
-       speedd=78;   
-    }
-    if(string =="S5")
-    {
-       speedd=100; 
-    }
-    
-    
-    // if ((string.toInt()>=0)&&(string.toInt()<=100))
-  //  {
-    //  if (ledon==true)
-    //  {
-        //analogWrite(LED_BUILTIN, string.toInt());
-      //  car.setSpeed(string.toInt());
-      //  Serial.println(string);
-     //   delay(10);
-    //  }
-   // }
-    
+       speedd=100;
+    } 
  }
  
 void moveforward()

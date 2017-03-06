@@ -104,18 +104,6 @@
         android:layout_alignLeft="@+id/button4"
         android:layout_alignStart="@+id/button4" />
 
-    <TextView
-        android:text="Speed "
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/speed"
-        android:layout_alignRight="@+id/imgBackward"
-        android:layout_alignEnd="@+id/imgBackward"
-        android:layout_marginBottom="11dp"
-        android:id="@+id/txtSpeed"
-        android:textSize="18sp"
-        android:textStyle="normal|bold" />
-
     <Button
         android:text="-"
         android:layout_width="wrap_content"
@@ -138,5 +126,28 @@
         android:textSize="36sp"
         android:layout_toRightOf="@+id/speed"
         android:layout_toEndOf="@+id/speed" />
+
+    <TextView
+        android:text="Speed  Level:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txtSpeed"
+        android:textSize="18sp"
+        android:textStyle="normal|bold"
+        android:layout_alignTop="@+id/minus"
+        android:layout_alignLeft="@+id/speed"
+        android:layout_alignStart="@+id/speed"
+        android:layout_marginLeft="30dp"
+        android:layout_marginStart="30dp" />
+
+    <TextView
+        android:text="LOW"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/speedtxt"
+        android:layout_alignBaseline="@+id/txtSpeed"
+        android:layout_alignBottom="@+id/txtSpeed"
+        android:layout_toRightOf="@+id/tgl"
+        android:layout_toEndOf="@+id/tgl" />
 
 </RelativeLayout>

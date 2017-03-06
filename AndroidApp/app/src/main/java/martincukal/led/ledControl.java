@@ -1,3 +1,6 @@
+/*
+Creator Martin Chukaleski February/2017
+ */
 package martincukal.led;
 
 import android.support.v7.app.AppCompatActivity;
@@ -30,14 +33,14 @@ public class ledControl extends AppCompatActivity {
 
     Button disconnect,incSpeed,decSpeed;
     ToggleButton obstacleA;
-    TextView infoTxt;
+    TextView infoTxt,txtspeed;
     String address = null;
     ImageButton forward,backward,left,right,stop;
     ProgressBar speed;
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
-    int carSpeed = 20;
+    int carSpeed = 33;
     static int newSpeed;
     static int spdCount=1;
     private boolean isBtConnected = false;
@@ -65,6 +68,7 @@ public class ledControl extends AppCompatActivity {
         incSpeed = (Button) findViewById(R.id.plus);
         decSpeed = (Button) findViewById(R.id.minus);
         speed = (ProgressBar) findViewById(R.id.speed);
+        txtspeed = (TextView) findViewById(R.id.speedtxt);
 
         new ConnectBT().execute(); //Call the class to connect
 
@@ -193,27 +197,24 @@ public class ledControl extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (spdCount==5){
+                if (spdCount==3){
 
                 }
                 else {
-                     newSpeed =newSpeed +20;
+                     newSpeed =newSpeed +33;
                     speed.setProgress(newSpeed);
                     spdCount++;
                     if(spdCount == 1){
                         speed1();
+                        txtspeed.setText("LOW");
                     }
                     else if(spdCount == 2){
                         speed2();
+                        txtspeed.setText("MEDIUM");
                     }
                     else if(spdCount == 3){
                         speed3();
-                    }
-                    else if(spdCount == 4){
-                        speed4();
-                    }
-                    else if(spdCount == 5){
-                        speed5();
+                        txtspeed.setText("HIGH");
                     }
 
                 }
@@ -229,22 +230,19 @@ public class ledControl extends AppCompatActivity {
                 }
                 else {
                     spdCount--;
-                    newSpeed =newSpeed -20;
+                    newSpeed =newSpeed -33;
                     speed.setProgress(newSpeed);
                     if(spdCount == 1){
                         speed1();
+                        txtspeed.setText("LOW");
                     }
                     else if(spdCount == 2){
                         speed2();
+                        txtspeed.setText("MEDIUM");
                     }
                     else if(spdCount == 3){
                         speed3();
-                    }
-                    else if(spdCount == 4){
-                        speed4();
-                    }
-                    else if(spdCount == 5){
-                        speed5();
+                        txtspeed.setText("HIGH");
                     }
 
                 }
@@ -414,34 +412,7 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
-    private void speed4()
-    {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.getOutputStream().write("S4".toString().getBytes());
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
-    private void speed5()
-    {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.getOutputStream().write("S5".toString().getBytes());
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
+
 
     // fast way to call Toast
     private void msg(String s)
