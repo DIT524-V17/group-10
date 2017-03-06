@@ -37,7 +37,7 @@ public class ledControl extends AppCompatActivity {
     private ProgressDialog progress;
     BluetoothAdapter myBluetooth = null;
     BluetoothSocket btSocket = null;
-    int carSpeed = 20;
+    int carSpeed = 33;
     static int newSpeed;
     static int spdCount=1;
     private boolean isBtConnected = false;
@@ -193,11 +193,11 @@ public class ledControl extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if (spdCount==5){
+                if (spdCount==3){
 
                 }
                 else {
-                     newSpeed =newSpeed +20;
+                     newSpeed =newSpeed +33;
                     speed.setProgress(newSpeed);
                     spdCount++;
                     if(spdCount == 1){
@@ -208,12 +208,6 @@ public class ledControl extends AppCompatActivity {
                     }
                     else if(spdCount == 3){
                         speed3();
-                    }
-                    else if(spdCount == 4){
-                        speed4();
-                    }
-                    else if(spdCount == 5){
-                        speed5();
                     }
 
                 }
@@ -229,7 +223,7 @@ public class ledControl extends AppCompatActivity {
                 }
                 else {
                     spdCount--;
-                    newSpeed =newSpeed -20;
+                    newSpeed =newSpeed -33;
                     speed.setProgress(newSpeed);
                     if(spdCount == 1){
                         speed1();
@@ -239,12 +233,6 @@ public class ledControl extends AppCompatActivity {
                     }
                     else if(spdCount == 3){
                         speed3();
-                    }
-                    else if(spdCount == 4){
-                        speed4();
-                    }
-                    else if(spdCount == 5){
-                        speed5();
                     }
 
                 }
@@ -407,34 +395,6 @@ public class ledControl extends AppCompatActivity {
             try
             {
                 btSocket.getOutputStream().write("S3".toString().getBytes());
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
-    private void speed4()
-    {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.getOutputStream().write("S4".toString().getBytes());
-            }
-            catch (IOException e)
-            {
-                msg("Error");
-            }
-        }
-    }
-    private void speed5()
-    {
-        if (btSocket!=null)
-        {
-            try
-            {
-                btSocket.getOutputStream().write("S5".toString().getBytes());
             }
             catch (IOException e)
             {
