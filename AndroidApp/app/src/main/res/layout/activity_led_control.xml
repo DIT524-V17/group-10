@@ -70,10 +70,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewObstacle"
+        android:layout_marginTop="43dp"
         android:layout_below="@+id/imgBackward"
-        android:layout_toRightOf="@+id/lumn"
-        android:layout_toEndOf="@+id/lumn"
-        android:layout_marginTop="42dp" />
+        android:layout_alignLeft="@+id/tgl"
+        android:layout_alignStart="@+id/tgl" />
 
     <ToggleButton
         android:text="ToggleButton"
@@ -81,8 +81,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/tgl"
         android:layout_below="@+id/txtViewObstacle"
-        android:layout_alignLeft="@+id/imgBackward"
-        android:layout_alignStart="@+id/imgBackward" />
+        android:layout_alignLeft="@+id/button4"
+        android:layout_alignStart="@+id/button4" />
 
     <Button
         android:text="Disconnect from Ardueno"
@@ -149,5 +149,22 @@
         android:layout_alignBottom="@+id/txtSpeed"
         android:layout_toRightOf="@+id/tgl"
         android:layout_toEndOf="@+id/tgl" />
+
+    <ToggleButton
+        android:id="@+id/toggleButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ToggleButton"
+        android:layout_above="@+id/button4"
+        android:layout_alignRight="@+id/button4"
+        android:layout_alignEnd="@+id/button4" />
+
+    <TextView
+        android:id="@+id/Infrared_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/toggleButton"
+        android:layout_toRightOf="@+id/imgBackward"
+        android:text="IR Avoidance" />
 
 </RelativeLayout>
