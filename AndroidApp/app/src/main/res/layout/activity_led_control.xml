@@ -151,20 +151,21 @@
         android:layout_toEndOf="@+id/tgl" />
 
     <ToggleButton
-        android:id="@+id/toggleButton"
+        android:id="@+id/collision_Avoidance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ToggleButton"
+        android:text="CollisionAvoidance"
         android:layout_above="@+id/button4"
         android:layout_alignRight="@+id/button4"
         android:layout_alignEnd="@+id/button4" />
 
     <TextView
-        android:id="@+id/Infrared_button"
+        android:id="@+id/Infrared_Text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/toggleButton"
-        android:layout_toRightOf="@+id/imgBackward"
-        android:text="IR Avoidance" />
+        android:text="IR Avoidance"
+        android:layout_above="@+id/collision_Avoidance"
+        android:layout_alignLeft="@+id/collision_Avoidance"
+        android:layout_alignStart="@+id/collision_Avoidance" />
 
 </RelativeLayout>
