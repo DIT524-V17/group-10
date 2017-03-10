@@ -181,8 +181,10 @@ public class ledControl extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b){
                     obsON();
+                    irON();
                 }
                 else {
+                    irOFF();
                     obsOFF();
                 }
             }
@@ -371,6 +373,37 @@ public class ledControl extends AppCompatActivity {
         }
     }
 
+
+    private void irON()
+    {
+        if(btSocket != null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("iO".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+
+    private void irOFF()
+    {
+        if(btSocket != null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("iF".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error fam");
+            }
+        }
+    }
+
     private void speed1()
     {
         if (btSocket!=null)
@@ -414,6 +447,8 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
+
+
 
 
     // fast way to call Toast
