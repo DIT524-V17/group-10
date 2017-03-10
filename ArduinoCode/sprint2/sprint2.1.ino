@@ -1,4 +1,3 @@
- 
 #include <Smartcar.h>
 
 Gyroscope gyro;
@@ -9,6 +8,9 @@ String string;
 boolean ledon = false;
 #define led 5
 int speedd = 33;
+boolean obsAvoid = true;
+const int TRIGGER_PIN = 6; //pins for SonarSensor (5,6)
+const int ECHO_PIN = 5;
 
 
   void setup()
@@ -18,7 +20,7 @@ int speedd = 33;
     gyro.attach();
     gyro.begin();
     car.begin(gyro);
-    
+    SonarSensor.attach(TRIGGER_PIN, ECHO_PIN);
   }
 
   void loop()
@@ -87,6 +89,18 @@ int speedd = 33;
     {
        speedd=100;
     } 
+     if(string == "ON"){
+      
+    boolean obsAvoid = true;   
+    }
+    if(string == "OF"){
+      
+    boolean obsAvoid = false;     
+    }
+    if(obsAvoid == true){
+    obstacle();
+    
+    }
  }
  
 void moveforward()
@@ -115,3 +129,14 @@ void moveforward()
       car.rotate(-1);
       delay(10);
 }
+void obstacle(){
+  unsigned int distance = SonarSensor.getDistance();
+  car.getSpeed();
+  if (distance <= 15 && distance >0) {
+    car.setSpeed(0);
+    //drive = false;
+    car.getSpeed();
+    }
+   }
+
+
