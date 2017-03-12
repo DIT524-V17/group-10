@@ -1,21 +1,34 @@
+//LIBS
 #include <Smartcar.h>
 
+
+#define led 5
+#define SRPC Serial
+#define SRBT Serial3
+
+//OBJECTS
 Gyroscope gyro;
 Car car;
 SR04 SonarSensor;
+
+
+//VARIABLES
 char command;
-String string;
+String string = "";
 boolean ledon = false;
-#define led 5
 int speedd = 33;
-boolean obsAvoid = true;
+boolean obsAvoid = false;
 const int TRIGGER_PIN = 6; //pins for SonarSensor (5,6)
 const int ECHO_PIN = 5;
 
+unsigned int distance;
 
+  //INI
   void setup()
   {
-    Serial.begin(9600);
+    SRPC.begin(9600);
+    SRBT.begin(9600);
+    
     pinMode(LED_BUILTIN, OUTPUT);
     gyro.attach();
     gyro.begin();
@@ -25,14 +38,11 @@ const int ECHO_PIN = 5;
 
   void loop()
   {  
-    
-    
-    if (Serial.available() > 0) 
+    if (SRBT.available() > 0) 
     {string = "";}
-    
-    while(Serial.available() > 0)
+    while(SRBT.available() > 0)
     {
-      command = ((byte)Serial.read());
+      command = ((byte)SRBT.read());
       
       if(command == ':')
       {
@@ -47,35 +57,29 @@ const int ECHO_PIN = 5;
       delay(1);
     }
     
-    if(string == "TO")
-    {
-        moveforward();
-        ledon = true;
-    }
-    
     if(string =="TF")
     {
         stopcar();
         ledon = false;
-        Serial.println(string);
+        SRBT.println(string);
     }
      if(string =="BO")
     {
         movebackward();
         ledon = true;
-        Serial.println(string);
+        SRBT.println(string);
     }
      if(string =="RI")
     {
         right();
         ledon = true;
-        Serial.println(string);
+        SRBT.println(string);
     }
      if(string =="LE")
     {
         left();
         ledon = true;
-        Serial.println(string);
+        SRBT.println(string);
     }
      if(string =="S1")
     {
@@ -89,17 +93,34 @@ const int ECHO_PIN = 5;
     {
        speedd=100;
     } 
-     if(string == "ON"){
+    if(string == "ON"){
       
-    boolean obsAvoid = true;   
+      obsAvoid = true;   
     }
     if(string == "OF"){
       
-    boolean obsAvoid = false;     
+      obsAvoid = false;     
     }
-    if(obsAvoid == true){
-    obstacle();
-    
+
+    if(obsAvoid){
+      distance = SonarSensor.getDistance();
+      car.getSpeed();
+      if (distance <= 15 && distance >0) {
+        car.setSpeed(0);
+        car.getSpeed();
+      }else{
+        if(string == "TO")
+        {
+           moveforward();
+           ledon = true;
+        }
+      }
+    }else{
+      if(string == "TO")
+      {
+        moveforward();
+        ledon = true;
+      }
     }
  }
  
@@ -129,14 +150,3 @@ void moveforward()
       car.rotate(-1);
       delay(10);
 }
-void obstacle(){
-  unsigned int distance = SonarSensor.getDistance();
-  car.getSpeed();
-  if (distance <= 15 && distance >0) {
-    car.setSpeed(0);
-    //drive = false;
-    car.getSpeed();
-    }
-   }
-
-
