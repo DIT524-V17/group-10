@@ -33,6 +33,7 @@ public class ledControl extends AppCompatActivity {
 
     Button disconnect,incSpeed,decSpeed;
     ToggleButton obstacleA;
+    ToggleButton collisionAvoidance;
     TextView infoTxt,txtspeed;
     String address = null;
     ImageButton forward,backward,left,right,stop;
@@ -65,6 +66,7 @@ public class ledControl extends AppCompatActivity {
         disconnect = (Button) findViewById(R.id.button4);
         infoTxt = (TextView) findViewById(R.id.lumn);
         obstacleA = (ToggleButton) findViewById(R.id.tgl);
+        collisionAvoidance = (ToggleButton) findViewById(R.id.collision_Avoidance);
         incSpeed = (Button) findViewById(R.id.plus);
         decSpeed = (Button) findViewById(R.id.minus);
         speed = (ProgressBar) findViewById(R.id.speed);

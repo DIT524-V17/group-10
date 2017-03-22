@@ -1,4 +1,4 @@
- 
+
 #include <Smartcar.h>
 
 Gyroscope gyro;
@@ -14,10 +14,13 @@ int speedd = 33;
   void setup()
   {
     Serial.begin(9600);
-    pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(36, OUTPUT);
+    //pinMode(40, OUTPUT);
+    //pinMode(41, OUTPUT);
     gyro.attach();
     gyro.begin();
     car.begin(gyro);
+    
   }
 
   void loop()
@@ -48,30 +51,37 @@ int speedd = 33;
     {
         moveforward();
         ledon = true;
+        digitalWrite(36, LOW);
     }
     
     if(string =="TF")
     {
         stopcar();
         ledon = false;
+        digitalWrite(36,HIGH);
         Serial.println(string);
     }
      if(string =="BO")
     {
         movebackward();
         ledon = true;
+        digitalWrite(36,LOW);
         Serial.println(string);
     }
      if(string =="RI")
     {
         right();
         ledon = true;
+        digitalWrite(36,LOW);
+        //digitalWrite(41,HIGH);
         Serial.println(string);
     }
      if(string =="LE")
     {
         left();
         ledon = true;
+        digitalWrite(36,LOW);
+        //digitalWrite(40  ,HIGH);
         Serial.println(string);
     }
      if(string =="S1")
@@ -97,6 +107,7 @@ void moveforward()
  void stopcar()
  {
       car.setSpeed(0);
+      digitalWrite(36,HIGH);
       delay(10);
  }
  void movebackward()
@@ -105,24 +116,12 @@ void moveforward()
       delay(10);
  }
   void right()
- {    
-      
+ {
       car.rotate(1);
-     
+      delay(10);
  }
   void left()
- {    
-     
+ {
       car.rotate(-1);
-<<<<<<< HEAD
-      
- }
-  
- 
- 
-
-    
-=======
       delay(10);
 }
->>>>>>> master
