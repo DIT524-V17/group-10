@@ -17,7 +17,6 @@ int speedd = 33;
     gyro.attach();
     gyro.begin();
     car.begin(gyro);
-    
   }
 
   void loop()
@@ -105,18 +104,18 @@ void moveforward()
       delay(10);
  }
   void right()
- {
+ {    
+      
       car.rotate(1);
-      delay(10);
+     
  }
   void left()
- {
+ {    
+     
       car.rotate(-1);
-      delay(10);
+      
  }
-
- 
- 
+  
  
  
 
