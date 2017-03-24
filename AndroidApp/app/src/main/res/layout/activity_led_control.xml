@@ -38,18 +38,6 @@
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/button"
-        android:id="@+id/imgForward"
-        android:layout_marginTop="22dp"
-        android:layout_marginLeft="13dp"
-        android:layout_marginStart="13dp"
-        android:layout_below="@+id/stopSign"
-        android:layout_toRightOf="@+id/lumn"
-        android:layout_toEndOf="@+id/lumn" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         app:srcCompat="@mipmap/left"
         android:id="@+id/imgLeft"
         android:layout_below="@+id/imgForward"
@@ -70,10 +58,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/txtViewObstacle"
-        android:layout_marginTop="43dp"
         android:layout_below="@+id/imgBackward"
-        android:layout_alignLeft="@+id/tgl"
-        android:layout_alignStart="@+id/tgl" />
+        android:layout_toRightOf="@+id/lumn"
+        android:layout_toEndOf="@+id/lumn"
+        android:layout_marginTop="42dp" />
 
     <ToggleButton
         android:text="ToggleButton"
@@ -81,8 +69,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/tgl"
         android:layout_below="@+id/txtViewObstacle"
-        android:layout_alignLeft="@+id/button4"
-        android:layout_alignStart="@+id/button4" />
+        android:layout_alignLeft="@+id/imgBackward"
+        android:layout_alignStart="@+id/imgBackward" />
 
     <Button
         android:text="Disconnect from Ardueno"
@@ -150,22 +138,49 @@
         android:layout_toRightOf="@+id/tgl"
         android:layout_toEndOf="@+id/tgl" />
 
-    <ToggleButton
-        android:id="@+id/collision_Avoidance"
+    <Button
+        android:text="right"
+        android:id="@+id/rotateright"
+        android:elevation="0dp"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/speedtxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="CollisionAvoidance"
-        android:layout_above="@+id/button4"
-        android:layout_alignRight="@+id/button4"
-        android:layout_alignEnd="@+id/button4" />
+        android:layout_alignTop="@+id/rotateright"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/rotateleft" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/button"
+        android:id="@+id/imgForward"
+        android:layout_below="@+id/lumn"
+        android:layout_alignRight="@+id/txtSpeed"
+        android:layout_alignEnd="@+id/txtSpeed" />
 
     <TextView
-        android:id="@+id/Infrared_Text"
+        android:text="Rotate in place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="IR Avoidance"
-        android:layout_above="@+id/collision_Avoidance"
-        android:layout_alignLeft="@+id/collision_Avoidance"
-        android:layout_alignStart="@+id/collision_Avoidance" />
+        android:id="@+id/textView"
+        android:layout_above="@+id/rotateleft"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Rotate in place"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/rotateright"
+        android:layout_alignLeft="@+id/rotateright"
+        android:layout_alignStart="@+id/rotateright"
+        android:id="@+id/textView2" />
 
 </RelativeLayout>

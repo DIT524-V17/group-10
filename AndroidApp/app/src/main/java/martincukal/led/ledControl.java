@@ -31,9 +31,8 @@ import java.util.UUID;
 
 public class ledControl extends AppCompatActivity {
 
-    Button disconnect,incSpeed,decSpeed;
+    Button disconnect,incSpeed,decSpeed,leftrotate,rightrotate;
     ToggleButton obstacleA;
-    ToggleButton collisionAvoidance;
     TextView infoTxt,txtspeed;
     String address = null;
     ImageButton forward,backward,left,right,stop;
@@ -66,11 +65,12 @@ public class ledControl extends AppCompatActivity {
         disconnect = (Button) findViewById(R.id.button4);
         infoTxt = (TextView) findViewById(R.id.lumn);
         obstacleA = (ToggleButton) findViewById(R.id.tgl);
-        collisionAvoidance = (ToggleButton) findViewById(R.id.collision_Avoidance);
         incSpeed = (Button) findViewById(R.id.plus);
         decSpeed = (Button) findViewById(R.id.minus);
         speed = (ProgressBar) findViewById(R.id.speed);
         txtspeed = (TextView) findViewById(R.id.speedtxt);
+        leftrotate = (Button) findViewById(R.id.rotateleft);
+        rightrotate = (Button) findViewById(R.id.rotateright);
 
         new ConnectBT().execute(); //Call the class to connect
 
@@ -78,6 +78,7 @@ public class ledControl extends AppCompatActivity {
         speed.setProgress(carSpeed); //initial starting speed of 20
 
         newSpeed = carSpeed;
+
 
         //commands to be sent to bluetooth
         forward.setOnTouchListener(new  View.OnTouchListener() {
@@ -164,6 +165,42 @@ public class ledControl extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         // Do something
                         stop();
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        // No longer down
+                        stop();
+                        return true;
+                }
+                return false;
+            }
+
+        });
+        rightrotate.setOnTouchListener(new  View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Do something
+                        inPlaceRotate();
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        // No longer down
+                        stop();
+                        return true;
+                }
+                return false;
+            }
+
+        });
+        leftrotate.setOnTouchListener(new  View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch(event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        // Do something
+                        inPlaceRotateOpp();
 
                         return true;
                     case MotionEvent.ACTION_UP:
@@ -363,6 +400,34 @@ public class ledControl extends AppCompatActivity {
             try
             {
                 btSocket.getOutputStream().write("OF".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+    private void inPlaceRotate()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("RO".toString().getBytes());
+            }
+            catch (IOException e)
+            {
+                msg("Error");
+            }
+        }
+    }
+    private void inPlaceRotateOpp()
+    {
+        if (btSocket!=null)
+        {
+            try
+            {
+                btSocket.getOutputStream().write("OR".toString().getBytes());
             }
             catch (IOException e)
             {

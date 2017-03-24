@@ -9,7 +9,7 @@
 //OBJECTS
 Gyroscope gyro;
 Car car;
-SR04 SonarSensor;
+SR04 SonarSensor,BackSonar;
 
 
 //VARIABLES
@@ -20,8 +20,11 @@ int speedd = 33;
 boolean obsAvoid = false;
 const int TRIGGER_PIN = 6; //pins for SonarSensor (5,6)
 const int ECHO_PIN = 5;
+const int TRIGGER_PIN2 = 10; //pins for SonarSensor (9,10)
+const int ECHO_PIN2 = 9;
 
 unsigned int distance;
+unsigned int distance2;
 
   //INI
   void setup()
@@ -108,8 +111,9 @@ unsigned int distance;
 
     if(obsAvoid){
       distance = SonarSensor.getDistance();
+      distance2 = BackSonar.getDistance();
       car.getSpeed();
-      if (distance <= 15 && distance >0) {
+      if ((distance <= 15 && distance >0)||(distance2 <= 15 && distance2 >0)) {
         car.setSpeed(0);
         car.getSpeed();
       }else{
@@ -119,14 +123,6 @@ unsigned int distance;
            ledon = true;
            digitalWrite(36, LOW);
         }
-      }
-    }else{
-      if(string == "TO")
-      {
-        
-        moveforward();
-        ledon = true;
-        digitalWrite(36, LOW);
       }
     }
  }
