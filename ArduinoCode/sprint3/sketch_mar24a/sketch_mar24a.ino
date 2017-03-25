@@ -67,6 +67,12 @@ unsigned int distance2;
         digitalWrite(36, HIGH);
         SRBT.println(string);
     }
+    if(string == "TO")
+        {
+           moveforward();
+           ledon = true;
+           digitalWrite(36, LOW);
+        }
      if(string =="BO")
     {
         movebackward();
@@ -90,7 +96,7 @@ unsigned int distance2;
     }
      if(string =="RO")
     {
-        leftRotate();
+       leftRotate();
     }
      if(string =="OR")
     {
@@ -121,7 +127,7 @@ unsigned int distance2;
       distance = SonarSensor.getDistance();
       distance2 = BackSonar.getDistance();
       car.getSpeed();
-      if ((distance <= 15 && distance >0)||(distance2 <= 15 && distance2 >0)) {
+      if (distance <= 15 && distance >0) {
         car.setSpeed(0);
         car.getSpeed();
       }else{
