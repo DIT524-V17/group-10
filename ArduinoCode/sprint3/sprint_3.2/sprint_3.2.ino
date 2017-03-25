@@ -9,7 +9,7 @@
 //OBJECTS
 Gyroscope gyro;
 Car car;
-SR04 SonarSensor;
+SR04 SonarSensor,BackSonarSensor;
 
 
 //VARIABLES
@@ -18,13 +18,14 @@ String string = "";
 boolean ledon = false;
 int speedd = 33;
 boolean obsAvoid = false;
+boolean obsAvoid2 = false;
 const int TRIGGER_PIN = 6; //pins for SonarSensor (5,6)
 const int ECHO_PIN = 5;
-const int TRIGGER_PIN2 = 35; //pins for SonarSensor (9,10)
+const int TRIGGER_PIN2 = 35; //pins for BackSonarSensor (35,37)
 const int ECHO_PIN2 = 37;
 
-unsigned int distance;
-unsigned int distance2;
+unsigned int distance,distance2;
+
 
   //INI
   void setup()
@@ -32,11 +33,12 @@ unsigned int distance2;
     SRPC.begin(9600);
     SRBT.begin(9600);
     
-    pinMode(36, OUTPUT);
+    pinMode(LED_BUILTIN, OUTPUT);
     gyro.attach();
     gyro.begin();
     car.begin(gyro);
     SonarSensor.attach(TRIGGER_PIN, ECHO_PIN);
+    BackSonarSensor.attach(TRIGGER_PIN2, ECHO_PIN2);
   }
 
   void loop()
@@ -59,40 +61,23 @@ unsigned int distance2;
       
       delay(1);
     }
-    
     if(string =="TF")
     {
         stopcar();
         ledon = false;
         digitalWrite(36, HIGH);
-        SRBT.println(string);
-    }
-    if(string == "TO")
-        {
-           moveforward();
-           ledon = true;
-           digitalWrite(36, LOW);
-        }
-     if(string =="BO")
-    {
-        movebackward();
-        ledon = true;
-        digitalWrite(36, LOW);
-        SRBT.println(string);
     }
      if(string =="RI")
     {
         right();
         ledon = true;
         digitalWrite(36, LOW);
-        SRBT.println(string);
     }
      if(string =="LE")
     {
         left();
         ledon = true;
         digitalWrite(36, LOW);
-        SRBT.println(string);
     }
      if(string =="RO")
     {
@@ -116,16 +101,16 @@ unsigned int distance2;
     } 
     if(string == "ON"){
       
-      obsAvoid = true;   
+      obsAvoid = true; 
+      obsAvoid2 = true;  
     }
     if(string == "OF"){
       
       obsAvoid = false;     
+      obsAvoid2 = false;
     }
-
     if(obsAvoid){
       distance = SonarSensor.getDistance();
-      //distance2 = BackSonar.getDistance();
       car.getSpeed();
       if (distance <= 15 && distance >0) {
         car.setSpeed(0);
@@ -137,11 +122,35 @@ unsigned int distance2;
            ledon = true;
            digitalWrite(36, LOW);
         }
-      }}else{
+      }
+    }else{
       if(string == "TO")
       {
         moveforward();
+        ledon = true; 
+        digitalWrite(36, LOW);
+      }
+    }
+    if(obsAvoid2){
+      distance2 = BackSonarSensor.getDistance();
+      car.getSpeed();
+      if (distance2 <= 15 && distance2 >0) {
+        car.setSpeed(0);
+        car.getSpeed();
+      }else{
+         if(string =="BO")
+        {
+        movebackward();
         ledon = true;
+        digitalWrite(36, LOW);
+        }
+      }
+    }else{
+      if(string == "BO")
+      {
+         movebackward();
+        ledon = true;
+        digitalWrite(36, LOW);
       }
     }
  }
@@ -155,7 +164,6 @@ void moveforward()
  void stopcar()
  {
       car.setSpeed(0);
-      digitalWrite(36,HIGH);
       delay(10);
  }
  void movebackward()
@@ -175,7 +183,9 @@ void moveforward()
 }
  void leftRotate(){
   car.setMotorSpeed(-(speedd), speedd);
+  delay(10);
 }
 void rightRotate(){
   car.setMotorSpeed(speedd, -(speedd));
+  delay(10);
 }
