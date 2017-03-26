@@ -1,4 +1,4 @@
-//LIBS
+  //LIBS
 #include <Smartcar.h>
 
 
@@ -33,7 +33,7 @@ unsigned int distance,distance2;
     SRPC.begin(9600);
     SRBT.begin(9600);
     
-    pinMode(LED_BUILTIN, OUTPUT);
+    pinMode(32, OUTPUT);
     gyro.attach();
     gyro.begin();
     car.begin(gyro);
@@ -65,19 +65,19 @@ unsigned int distance,distance2;
     {
         stopcar();
         ledon = false;
-        digitalWrite(36, HIGH);
+        digitalWrite(32, HIGH);
     }
      if(string =="RI")
     {
         right();
         ledon = true;
-        digitalWrite(36, LOW);
+        digitalWrite(32, LOW);
     }
      if(string =="LE")
     {
         left();
         ledon = true;
-        digitalWrite(36, LOW);
+        digitalWrite(32, LOW);
     }
      if(string =="RO")
     {
@@ -120,7 +120,7 @@ unsigned int distance,distance2;
         {
            moveforward();
            ledon = true;
-           digitalWrite(36, LOW);
+           digitalWrite(32, LOW);
         }
       }
     }else{
@@ -128,7 +128,7 @@ unsigned int distance,distance2;
       {
         moveforward();
         ledon = true; 
-        digitalWrite(36, LOW);
+        digitalWrite(32, LOW);
       }
     }
     if(obsAvoid2){
@@ -142,7 +142,7 @@ unsigned int distance,distance2;
         {
         movebackward();
         ledon = true;
-        digitalWrite(36, LOW);
+        digitalWrite(32, LOW);
         }
       }
     }else{
@@ -150,7 +150,7 @@ unsigned int distance,distance2;
       {
          movebackward();
         ledon = true;
-        digitalWrite(36, LOW);
+        digitalWrite(32, LOW);
       }
     }
  }
