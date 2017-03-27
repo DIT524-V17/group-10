@@ -34,6 +34,10 @@ unsigned int distance,distance2;
     SRBT.begin(9600);
     
     pinMode(32, OUTPUT);
+    pinMode(40, OUTPUT);
+    pinMode(41, OUTPUT);
+    pinMode(45, OUTPUT);
+    
     gyro.attach();
     gyro.begin();
     car.begin(gyro);
@@ -66,18 +70,28 @@ unsigned int distance,distance2;
         stopcar();
         ledon = false;
         digitalWrite(32, HIGH);
+        digitalWrite(40, LOW);
+        digitalWrite(45, LOW);
+        digitalWrite(41, LOW);
     }
      if(string =="RI")
     {
         right();
         ledon = true;
+        digitalWrite(40, HIGH);
         digitalWrite(32, LOW);
+        digitalWrite(41, LOW);
+        digitalWrite(45, LOW);
+        
     }
      if(string =="LE")
     {
         left();
         ledon = true;
+        digitalWrite(41, HIGH);
         digitalWrite(32, LOW);
+        digitalWrite(45, LOW);
+        digitalWrite(40, LOW);
     }
      if(string =="RO")
     {
@@ -121,6 +135,10 @@ unsigned int distance,distance2;
            moveforward();
            ledon = true;
            digitalWrite(32, LOW);
+           digitalWrite(40, LOW);
+           digitalWrite(41, LOW);
+           digitalWrite(45, LOW);
+           
         }
       }
     }else{
@@ -129,6 +147,10 @@ unsigned int distance,distance2;
         moveforward();
         ledon = true; 
         digitalWrite(32, LOW);
+        digitalWrite(40, LOW);
+        digitalWrite(41, LOW);
+        digitalWrite(45, LOW);
+        
       }
     }
     if(obsAvoid2){
@@ -142,7 +164,10 @@ unsigned int distance,distance2;
         {
         movebackward();
         ledon = true;
+        digitalWrite(45, HIGH);
         digitalWrite(32, LOW);
+        digitalWrite(41, LOW);
+        digitalWrite(40, LOW);
         }
       }
     }else{
@@ -150,7 +175,10 @@ unsigned int distance,distance2;
       {
          movebackward();
         ledon = true;
+        digitalWrite(45, HIGH);
         digitalWrite(32, LOW);
+        digitalWrite(40, LOW);
+        digitalWrite(41, LOW);
       }
     }
  }

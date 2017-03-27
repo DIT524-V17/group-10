@@ -114,15 +114,8 @@ void moveforward()
  {    
      
       car.rotate(-1);
-<<<<<<< HEAD
       
  }
-  
- 
- 
-
-    
-=======
-      delay(10);
+     
 }
->>>>>>> master
+
