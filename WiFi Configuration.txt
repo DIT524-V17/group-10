@@ -1,0 +1,14 @@
+WiFi Configuration
+
+* Booth the Raspberry Pi without the WiFi adapter.
+* Sudo nano / etc / network / interfaces 
+* Insert auto lo
+* iface lo inet loopback
+* iface eth0 inet dhcp
+* allow - hotplug wlan0
+* auto wlan0
+* iface wlan0 inet dhcp
+* wpa - ssid "ssid"
+* wpa - psk "pssword"
+* [ctrl]x
+* shut down Raspberry Pi, plug WiFi adapter in and start it up again
