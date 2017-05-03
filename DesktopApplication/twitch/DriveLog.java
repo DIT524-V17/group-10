@@ -1,4 +1,4 @@
-package group10;
+package twitch;
 
 /**
  * Creator Martin Chukaleski 03/2017

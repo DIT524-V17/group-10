@@ -1,4 +1,4 @@
-package group10;
+package twitch;
 
 /**
  * Creator Martin Chukaleski 03/2017
@@ -36,7 +36,7 @@ public class FileCommandSender {
 		StringBuilder builder = new StringBuilder();
 		while (scanner.hasNextLine()) {
 			builder.append(scanner.nextLine());
-			builder.append(" ");// Additional empty space needs to be added
+			builder.append(" ");// appending empty strings to builder
 		}
 		String strings[] = builder.toString().split(" "); // splitting every
 															// line to several
@@ -78,8 +78,9 @@ public class FileCommandSender {
 
 		}
 		if (x.size() > 0) {
-			x.autoExecution();
-			x.clearAll(); // testing purposes to see if executor works
+			x.autoExecution();// where the execution of the commands is being
+								// made
+			x.clearAll();
 		} else {
 			System.out.println("Nothing was found");
 		}

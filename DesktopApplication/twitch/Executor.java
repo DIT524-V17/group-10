@@ -1,4 +1,4 @@
-package group10;
+package twitch;
 
 /**
  * Creator Martin Chukaleski 03/2017
@@ -60,10 +60,13 @@ public class Executor {
 																			// sending
 																			// commands
 			while (System.currentTimeMillis() < endTime) {
-				// execute commands here
+				// execute commands here for a speicifc time
 				System.out.println(this.getCmdtype(i));
 			}
-			indexCount = this.size();
+			indexCount = this.size(); // having the indexCount as a stored index
+										// from the object executor so that when
+										// the txt file is updated the program
+			// doesn't execute the old commands only the new ones
 		}
 	}
 
