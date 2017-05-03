@@ -106,7 +106,7 @@ public class JSTPlay {
         };
 
         JPanel connectPanel = new JPanel();
-        urlField = new JTextField("http://192.168.0.2:8008/test1.mpg",50);
+        urlField = new JTextField("http://192.168.0.1:8000/picam.webm",50);
 
         connectPanel.add(urlField,BorderLayout.WEST);
         connectButton = new JButton("Connect");
