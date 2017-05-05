@@ -16,6 +16,7 @@ import javax.microedition.io.StreamConnection;
 public class Bluetooth {
 	private OutputStream os;
 	private boolean carFound = false;
+	//private boolean carConnected = false;
 	private final RemoteDevice[] carDevice = new RemoteDevice[1];
 
 	public void findCar() throws BluetoothStateException, InterruptedException {
@@ -66,6 +67,11 @@ public class Bluetooth {
 	public boolean getCarFound() {
 		return carFound;
 	}
+	/**
+	public boolean getConnected(){
+		return carConnected;
+	}
+	*/
 
 	public void connect() throws IOException {
 		System.out.println("attempting to connect");
@@ -73,8 +79,6 @@ public class Bluetooth {
 				.open("btspp://" + carDevice[0].getBluetoothAddress() + ":1");
 		System.out.println("Connection made");
 		os = con.openOutputStream();
-		InputStream is = con.openInputStream();
-		//autoExecution(os);
 	}
 
 	public void timedTask(long s) { // wait for s milliseconds than execute next

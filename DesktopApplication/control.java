@@ -65,6 +65,7 @@ public class control extends JFrame{
 		speeds[2] = "High";
 		lblSpeed.setText("Speed:  " + speeds[speed]);
 		
+		setTitle("Controller");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(500, 400, 940, 600);
 		contentPane = new JPanel();
