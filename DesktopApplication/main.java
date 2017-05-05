@@ -20,6 +20,8 @@ public class main extends JFrame {
 	private JLabel lblSearching = new JLabel("");
 	private final JLabel lblController = new JLabel("");
 	private final JLabel lblTwitch = new JLabel("");
+	private Sound clickSound;
+	private Sound mouseoverSound;
 
 	/**
 	 * Launch the application.
@@ -28,7 +30,7 @@ public class main extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					main2 frame = new main2();
+					main frame = new main();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,6 +43,8 @@ public class main extends JFrame {
 	 * Create the frame.
 	 */
 	public main() {
+		clickSound = new Sound("/resource/clickSound.wav");
+		mouseoverSound = new Sound("/resource/mouseoverSound.wav");
 		setTitle("SMLR");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 800);
@@ -67,6 +71,7 @@ public class main extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				lblController.setIcon(new ImageIcon(main.class.getResource("/resource/controller2.png")));
+				mouseoverSound.play();
 				lblController.setBounds(260, 29, 521, 319);
 			}
 			@Override
@@ -76,7 +81,10 @@ public class main extends JFrame {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				clickSound = new Sound("/resource/clickSound.wav");
+				clickSound.play();
 				control control = new control();
+				control.setFocusable(true);
 				control.setVisible(true);
 			}
 		});
@@ -88,6 +96,7 @@ public class main extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				lblTwitch.setIcon(new ImageIcon(main.class.getResource("/resource/twitch2.png")));
+				mouseoverSound.play();
 				lblTwitch.setBounds(285, 378, 459, 300);
 			}
 			@Override
@@ -95,13 +104,14 @@ public class main extends JFrame {
 				lblTwitch.setBounds(300, 396, 425, 268);
 				lblTwitch.setIcon(new ImageIcon(main.class.getResource("/resource/twitch.png")));
 			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				clickSound.play();
+			}
 		});
 		lblTwitch.setBounds(300, 396, 425, 268);
 		lblTwitch.setIcon(new ImageIcon(main.class.getResource("/resource/twitch.png")));
 		contentPane.add(lblTwitch);
-		
-
-		
 		
 		/**
 		try {
