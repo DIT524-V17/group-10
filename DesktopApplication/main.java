@@ -21,7 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class main extends JFrame {
-
+	
+	public static Bluetooth bluetooth;
 	private JPanel contentPane;
 	private JButton btnCont = new JButton("Connect as controller");
 	private JLabel connectionPic = new JLabel("");
@@ -90,7 +91,7 @@ public class main extends JFrame {
 		btnMakeDummyConnection.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e){
-				Bluetooth bluetooth = new Bluetooth();
+				bluetooth = new Bluetooth();
 				try {
 					bluetooth.findCar();
 				} catch (BluetoothStateException | InterruptedException e1) {
@@ -198,4 +199,5 @@ public class main extends JFrame {
 		connectionPic.setIcon(new ImageIcon(main.class.getResource("/resource/notcon.png")));
 		btnStart.setVisible(false);
 	}
+	
 }
