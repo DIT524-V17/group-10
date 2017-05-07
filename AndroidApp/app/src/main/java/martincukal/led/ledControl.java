@@ -80,6 +80,7 @@ public class ledControl extends AppCompatActivity {
         newSpeed = carSpeed;
 
 
+
         //commands to be sent to bluetooth
         forward.setOnTouchListener(new  View.OnTouchListener() {
             @Override
@@ -304,7 +305,7 @@ public class ledControl extends AppCompatActivity {
         finish(); //return to the first layout
 
     }
-    private void stop()
+    public void stop()
     {
         if (btSocket!=null)
         {
@@ -319,7 +320,7 @@ public class ledControl extends AppCompatActivity {
         }
     }
 
-    private void moveforward()
+    public void moveforward()
     {
         if (btSocket!=null)
         {
@@ -333,7 +334,7 @@ public class ledControl extends AppCompatActivity {
             }
         }
     }
-    private void movebackward()
+    public void movebackward()
     {
         if (btSocket!=null)
         {
@@ -348,7 +349,7 @@ public class ledControl extends AppCompatActivity {
         }
     }
 
-    private void moveleft()
+    public void moveleft()
     {
         if (btSocket!=null)
         {
@@ -363,7 +364,7 @@ public class ledControl extends AppCompatActivity {
         }
     }
 
-    private void moveright()
+    public void moveright()
     {
         if (btSocket!=null)
         {
@@ -494,6 +495,11 @@ public class ledControl extends AppCompatActivity {
         return true;
     }
 
+//    public void openCam(View v) {
+//        Intent cView = new Intent(ledControl.this, VideoViewCam.class);
+//        startActivity(cView);
+//    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -516,6 +522,7 @@ public class ledControl extends AppCompatActivity {
         {
             progress = ProgressDialog.show(ledControl.this, "Connecting...", "Please wait!!!");  //show a progress dialog
         }
+
 
         @Override
         protected Void doInBackground(Void... devices) //while the progress dialog is shown, the connection is done in background

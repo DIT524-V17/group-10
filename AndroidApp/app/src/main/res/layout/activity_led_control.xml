@@ -183,4 +183,16 @@
         android:layout_alignStart="@+id/rotateright"
         android:id="@+id/textView2" />
 
+
+    <Button
+        android:id="@+id/cameraV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Camera"
+        android:onClick="openCam"
+        android:layout_below="@+id/lumn"
+        android:layout_alignRight="@+id/textView2"
+        android:layout_alignEnd="@+id/textView2" />
+
+
 </RelativeLayout>
