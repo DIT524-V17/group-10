@@ -1,5 +1,8 @@
 
 import java.io.IOException;
+/**
+ * Creator Martin Chukaleski 05/2017
+ */
 
 public class TwitchCommandSend {
 
