@@ -1,46 +1,43 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import javax.bluetooth.BluetoothConnectionException;
+import javax.bluetooth.BluetoothStateException;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.bluetooth.BluetoothStateException;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.Color;
+import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+//Author: Ludvig Hygrell
 
 public class main extends JFrame {
-	
-	public static Bluetooth bluetooth;
+
 	private JPanel contentPane;
-	private JButton btnCont = new JButton("Connect as controller");
-	private JLabel connectionPic = new JLabel("");
+	public static Bluetooth bluetooth;
+	
+	private JLabel lblSearching = new JLabel("");
+	private JLabel lblConnecting = new JLabel("");
+	private final JLabel lblController = new JLabel("");
+	private final JLabel lblTwitch = new JLabel("");
+	private JLabel lblTryAgain = new JLabel("");
+	private final JLabel lblNoCar = new JLabel("");
+	private final JLabel lblConnFail = new JLabel("");
 
-	private boolean menu1 = true;
-	private boolean menuCont = false;
-	private boolean menuTwitch = false;
+	private Object syncEvent = new Object();
+	private Sound clickSound;
+	private Sound mouseoverSound;
+	private Sound tryAgain;
 
-	private boolean carForward = false;
-	private boolean carLeft = false;
-	private boolean carRight = false;
-	private boolean carBack = false;
 
-	private final JButton btnMakeDummyConnection = new JButton("Make dummy connection");
-	private final JButton btnBack = new JButton("Back");
-	private final JButton btnDisconnect = new JButton("Disconnect");
-	private final JButton btnStart = new JButton("Start");
-	private final JButton btnTwitch = new JButton("Connect to Twitch.tv");
 
 	/**
 	 * Launch the application.
@@ -62,142 +59,190 @@ public class main extends JFrame {
 	 * Create the frame.
 	 */
 	public main() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 1000, 800);
+		clickSound = new Sound("/resource/clickSound.wav");
+		mouseoverSound = new Sound("/resource/mouseoverSound.wav");
+		tryAgain = new Sound("/resource/tryAgain.wav");
+		
 		setTitle("SMLR");
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setFocusable(true);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent evt){
+				if(bluetooth.getCarConnected()){
+				try {
+					bluetooth.getOs().close();
+					bluetooth.getCon().close();
+					dispose();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				dispose();
+			} else {
+				dispose();
+			}
+			}
+			
+		});
+		setBounds(100, 100, 1000, 800);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(153, 255, 153));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-
-		btnCont.addMouseListener(new MouseAdapter() {
+		
+		
+		lblSearching.setIcon(new ImageIcon(main.class.getResource("/resource/searching.png")));
+		lblSearching.setBounds(249, 146, 584, 373);
+		lblSearching.setVisible(false);
+		contentPane.add(lblSearching);
+		
+		
+		lblConnecting.setVisible(false);
+		lblConnecting.setBounds(191, 96, 673, 528);
+		lblConnecting.setIcon(new ImageIcon(main.class.getResource("/resource/connecting.png")));
+		contentPane.add(lblConnecting);
+		
+		lblController.setBounds(285, 74, 476, 225);
+		lblController.setVisible(false);
+		lblController.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				menu1();
-				menuCont();
+			public void mouseEntered(MouseEvent arg0) {
+				lblController.setIcon(new ImageIcon(main.class.getResource("/resource/controller2.png")));
+				mouseoverSound.play();
+				lblController.setBounds(260, 29, 521, 319);
 			}
-		});
-		btnCont.setBounds(70, 341, 229, 96);
-		btnCont.setFocusable(false);
-		contentPane.add(btnCont);
-
-		connectionPic.setBounds(294, 16, 239, 53);
-		connectionPic.setIcon(new ImageIcon(main.class.getResource("/resource/notcon.png")));
-		connectionPic.setVisible(false);
-		connectionPic.setFocusable(false);
-		contentPane.add(connectionPic);
-
-		btnMakeDummyConnection.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e){
-				bluetooth = new Bluetooth();
-				try {
-					bluetooth.findCar();
-				} catch (BluetoothStateException | InterruptedException e1) {
-					e1.printStackTrace();
-				}
-				if (bluetooth.getCarFound()) {
-					try {
-						bluetooth.connect();
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					}
-					connectionPic.setIcon(new ImageIcon(main.class.getResource("/resource/conn.png")));
-					btnStart.setVisible(true);
-				} else {
-					System.out.println("Car not found");
-				}
+			public void mouseExited(MouseEvent e) {
+				lblController.setIcon(new ImageIcon(main.class.getResource("/resource/controller.png")));
+				lblController.setBounds(285, 74, 476, 225);
 			}
-		});
-		btnMakeDummyConnection.setBounds(294, 78, 244, 39);
-		btnMakeDummyConnection.setFocusable(false);
-		btnMakeDummyConnection.setVisible(false);
-		contentPane.add(btnMakeDummyConnection);
-
-		btnBack.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				menu1();
-				menuCont();
-				disconnectController();
-			}
-		});
-		btnBack.setBounds(15, 16, 140, 53);
-		btnBack.setFocusable(false);
-		btnBack.setVisible(false);
-		contentPane.add(btnBack);
-		btnDisconnect.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				disconnectController();
-				btnStart.setVisible(false);
-			}
-		});
-		btnDisconnect.setBounds(548, 16, 121, 53);
-		btnDisconnect.setFocusable(false);
-		btnDisconnect.setVisible(false);
-		contentPane.add(btnDisconnect);
-
-		btnStart.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
+				clickSound = new Sound("/resource/clickSound.wav");
+				clickSound.play();
 				control control = new control();
 				control.setFocusable(true);
 				control.setVisible(true);
 			}
 		});
-		btnStart.setFont(new Font("Tahoma", Font.PLAIN, 28));
-		btnStart.setVisible(false);
-		btnStart.setBackground(Color.GREEN);
-		btnStart.setBounds(703, 216, 260, 145);
-
-		contentPane.add(btnStart);
-		btnTwitch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		lblController.setIcon(new ImageIcon(main.class.getResource("/resource/controller.png")));
+		contentPane.add(lblController);
 		
-
-		btnTwitch.addMouseListener(new MouseAdapter() {
+		//CONNECT TO TWITCH BUTTON
+		lblTwitch.setVisible(false);
+		lblTwitch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				lblTwitch.setIcon(new ImageIcon(main.class.getResource("/resource/twitch2.png")));
+				mouseoverSound.play();
+				lblTwitch.setBounds(285, 378, 459, 300);
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblTwitch.setBounds(300, 396, 425, 268);
+				lblTwitch.setIcon(new ImageIcon(main.class.getResource("/resource/twitch.png")));
+			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				menu1();
-				menuTwitch();
+				clickSound.play();
+				TwitchCommandSend test = new TwitchCommandSend();
+				test.sendCommands("C:/Users/Ludvig/Desktop/t/twitch.txt");
 			}
 		});
-		btnTwitch.setBounds(70, 478, 229, 96);
-		contentPane.add(btnTwitch);
-	}
+		lblTwitch.setBounds(300, 396, 425, 268);
+		lblTwitch.setIcon(new ImageIcon(main.class.getResource("/resource/twitch.png")));
+		contentPane.add(lblTwitch);
+		
+		//TRY AGAIN BUTTON
+		lblTryAgain.setVisible(false);
+		lblTryAgain.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblNoCar.setVisible(false);
+				lblConnFail.setVisible(false);
+				lblTryAgain.setVisible(false);
+				tryAgain.play();
+				try {
+					SearchAndConnect();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 
-	public void menu1() {
-		if (menu1)
-			menu1 = false;
-		else
-			menu1 = true;
-		btnCont.setVisible(menu1);
-		btnTwitch.setVisible(menu1);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				mouseoverSound.play();
+				lblTryAgain.setBounds(257, 560, 430, 144);
+				lblTryAgain.setIcon(new ImageIcon(main.class.getResource("/resource/tryAgain2.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				lblTryAgain.setBounds(266, 563, 419, 134);
+				lblTryAgain.setIcon(new ImageIcon(main.class.getResource("/resource/tryAgain.png")));
+			}
+		});
+		lblTryAgain.setBounds(266, 563, 419, 134);
+		contentPane.add(lblTryAgain);
+		lblTryAgain.setIcon(new ImageIcon(main.class.getResource("/resource/tryAgain.png")));
+		
+		lblNoCar.setVisible(false);
+		lblNoCar.setBounds(210, 96, 647, 481);
+		lblNoCar.setIcon(new ImageIcon(main.class.getResource("/resource/NoFind.png")));
+		contentPane.add(lblNoCar);
+		
+		lblConnFail.setVisible(false);
+		lblConnFail.setBounds(172, 98, 622, 512);
+		lblConnFail.setIcon(new ImageIcon(main.class.getResource("/resource/ConnFail.png")));
+		contentPane.add(lblConnFail);
+		
+		bluetooth = new Bluetooth();
+		try {
+			SearchAndConnect();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
+		}
 	}
+	public void SearchAndConnect() throws InterruptedException{
+		Thread t1 = new Thread(new Runnable(){
+			public void run() {
+				try {
+					bluetooth.findCar();
+					lblSearching.setVisible(false);
+					if(bluetooth.getCarFound()) {
+						lblConnecting.setVisible(true);
+						try{
+						bluetooth.connect();
+						lblConnecting.setVisible(false);
+						lblTwitch.setVisible(true);
+						lblController.setVisible(true);;
+						} catch (BluetoothConnectionException e){
+							lblConnecting.setVisible(false);
+							lblTryAgain.setVisible(true);
+							lblConnFail.setVisible(true);
+						}
 
-	public void menuCont() {
-		if (menuCont)
-			menuCont = false;
-		else
-			menuCont = true;
-		connectionPic.setVisible(menuCont);
-		btnMakeDummyConnection.setVisible(menuCont);
-		btnBack.setVisible(menuCont);
-		btnDisconnect.setVisible(menuCont);
+					}
+					else{
+						lblTryAgain.setVisible(true);
+						lblNoCar.setVisible(true);
+					}
+				} catch (BluetoothStateException | InterruptedException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		lblSearching.setVisible(true);
+		t1.start();
 	}
-	public void menuTwitch(){
-		if (menuTwitch)
-			menuTwitch = false;
-		else
-			menuTwitch = true;
+	public void tryAgain(){
+		try {
+			SearchAndConnect();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		
 	}
-	public void disconnectController() {
-		connectionPic.setIcon(new ImageIcon(main.class.getResource("/resource/notcon.png")));
-		btnStart.setVisible(false);
-	}
-	
 }
