@@ -51,38 +51,42 @@ public class Executor {
 	}
 
 	public void autoExecution() {
-
-		for (int i = indexCount; i < this.size(); i++) { // for loop to iterate
-															// thru every
-															// element of the
-															// array list
-
-			long endTime = System.currentTimeMillis() + this.getTime(i); // when
-																			// do
-																			// we
-																			// want
-																			// the
-																			// while
-																			// loop
-																			// to
-																			// stop
-			
-																			// sending
-																			// commands
-			
-			
-			while (System.currentTimeMillis() < endTime) {
-				// execute commands here for a specifc time
-				System.out.println(this.getCommand(i));
-				main.bluetooth.btnPress(this.getCommand(i));
-			}
-			
-			
-			indexCount = this.size(); // having the indexCount as a stored index
-										// from the object executor so that when
-										// the txt file is updated the program
-			// doesn't execute the old commands only the new ones
-		}
+//
+//		for (int i = indexCount; i < this.size(); i++) { // for loop to iterate
+//															// thru every
+//															// element of the
+//															// array list
+//
+//			long endTime = System.currentTimeMillis() + this.getTime(i); // when
+//																			// do
+//																			// we
+//																			// want
+//																			// the
+//																			// while
+//																			// loop
+//																			// to
+//																			// stop
+//			
+//																			// sending
+//																			// commands
+//			
+//			
+//			while (System.currentTimeMillis() < endTime) {
+//				// execute commands here for a specifc time
+//				System.out.println(this.getCommand(i));
+				main.bluetooth.btnPress(this.getCommand(0));
+				Timer t = new Timer();
+				t.timedTask(1000);
+				main.bluetooth.btnPress(this.getCommand(1));
+				
+//			}
+//			
+//			
+//			indexCount = this.size(); // having the indexCount as a stored index
+//										// from the object executor so that when
+//										// the txt file is updated the program
+//			// doesn't execute the old commands only the new ones
+//		}
 	}
 
 	public void printF() { // for testing purposes print all commands from
