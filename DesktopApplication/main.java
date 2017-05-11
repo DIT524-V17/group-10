@@ -1,7 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
+import javax.bluetooth.BluetoothConnectionException;
 import javax.bluetooth.BluetoothStateException;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -11,6 +13,11 @@ import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+
+//Author: Ludvig Hygrell
 
 public class main extends JFrame {
 
@@ -25,6 +32,7 @@ public class main extends JFrame {
 	private final JLabel lblNoCar = new JLabel("");
 	private final JLabel lblConnFail = new JLabel("");
 
+	private Object syncEvent = new Object();
 	private Sound clickSound;
 	private Sound mouseoverSound;
 	private Sound tryAgain;
@@ -57,7 +65,24 @@ public class main extends JFrame {
 		
 		setTitle("SMLR");
 		setFocusable(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter(){
+			public void windowClosing(WindowEvent evt){
+				if(bluetooth.getCarConnected()){
+				try {
+					bluetooth.getOs().close();
+					bluetooth.getCon().close();
+					dispose();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				dispose();
+			} else {
+				dispose();
+			}
+			}
+			
+		});
 		setBounds(100, 100, 1000, 800);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(153, 255, 153));
@@ -65,7 +90,6 @@ public class main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		bluetooth = new Bluetooth();
 		
 		lblSearching.setIcon(new ImageIcon(main.class.getResource("/resource/searching.png")));
 		lblSearching.setBounds(249, 146, 584, 373);
@@ -121,6 +145,8 @@ public class main extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				clickSound.play();
+				TwitchCommandSend test = new TwitchCommandSend();
+				test.sendCommands("C:/Users/Ludvig/Desktop/t/twitch.txt");
 			}
 		});
 		lblTwitch.setBounds(300, 396, 425, 268);
@@ -135,8 +161,14 @@ public class main extends JFrame {
 				lblNoCar.setVisible(false);
 				lblConnFail.setVisible(false);
 				lblTryAgain.setVisible(false);
-				SearchAndConnect();
 				tryAgain.play();
+				try {
+					SearchAndConnect();
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -154,6 +186,7 @@ public class main extends JFrame {
 		contentPane.add(lblTryAgain);
 		lblTryAgain.setIcon(new ImageIcon(main.class.getResource("/resource/tryAgain.png")));
 		
+		lblNoCar.setVisible(false);
 		lblNoCar.setBounds(210, 96, 647, 481);
 		lblNoCar.setIcon(new ImageIcon(main.class.getResource("/resource/NoFind.png")));
 		contentPane.add(lblNoCar);
@@ -163,31 +196,53 @@ public class main extends JFrame {
 		lblConnFail.setIcon(new ImageIcon(main.class.getResource("/resource/ConnFail.png")));
 		contentPane.add(lblConnFail);
 		
-		
-		SearchAndConnect();
-	}
-	public void SearchAndConnect(){
+		bluetooth = new Bluetooth();
 		try {
-			lblSearching.setVisible(true);
-			bluetooth.findCar();
-			lblSearching.setVisible(false);
-		} catch (BluetoothStateException | InterruptedException e) {
-			lblNoCar.setVisible(true);
-			lblSearching.setVisible(false);
-			lblTryAgain.setVisible(true);
+			SearchAndConnect();
+		} catch (InterruptedException e1) {
+			e1.printStackTrace();
 		}
-		if(bluetooth.getCarFound()){
-			try {
-				lblConnecting.setVisible(true);
-				bluetooth.connect();
-				lblConnecting.setVisible(false);
-				lblController.setVisible(true);
-				lblTwitch.setVisible(true);
-			} catch (IOException e) {
-				lblConnFail.setVisible(true);
-				lblSearching.setVisible(false);
-				lblTryAgain.setVisible(true);
+	}
+	public void SearchAndConnect() throws InterruptedException{
+		Thread t1 = new Thread(new Runnable(){
+			public void run() {
+				try {
+					bluetooth.findCar();
+					lblSearching.setVisible(false);
+					if(bluetooth.getCarFound()) {
+						lblConnecting.setVisible(true);
+						try{
+						bluetooth.connect();
+						lblConnecting.setVisible(false);
+						lblTwitch.setVisible(true);
+						lblController.setVisible(true);;
+						} catch (BluetoothConnectionException e){
+							lblConnecting.setVisible(false);
+							lblTryAgain.setVisible(true);
+							lblConnFail.setVisible(true);
+						}
+
+					}
+					else{
+						lblTryAgain.setVisible(true);
+						lblNoCar.setVisible(true);
+					}
+				} catch (BluetoothStateException | InterruptedException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
+		});
+		lblSearching.setVisible(true);
+		t1.start();
+	}
+	public void tryAgain(){
+		try {
+			SearchAndConnect();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
+		
 	}
 }
