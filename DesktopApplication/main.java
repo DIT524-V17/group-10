@@ -120,9 +120,10 @@ public class main extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				clickSound = new Sound("/resource/clickSound.wav");
 				clickSound.play();
-				control control = new control();
-				control.setFocusable(true);
-				control.setVisible(true);
+				controller control = new controller();
+                             //   jSTPlay jplayer = new jSTPlay();
+//				control.setFocusable(true);
+//				control.setVisible(true);
 			}
 		});
 		lblController.setIcon(new ImageIcon(main.class.getResource("/resource/controller.png")));
