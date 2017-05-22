@@ -10,8 +10,13 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+// Class that reads the file from the path converts into a txt file scans thru it puts all the wanted commands into an String array and then
+// from those commands it creates a new Executor object and it fills it with new drive log objecst later to be executed
 public class FileCommandSender {
+	
+	
+	
+	democracy democracy = new democracy();
 
 	public void readAndExecuteFromFile(String path) {
 		try {
@@ -57,31 +62,36 @@ public class FileCommandSender {
 									// rover
 		// going thru the string array and checking for commands and adding them
 		// accordingly to their order
+		Executor m = new Executor();
 
 		for (int i = 0; i < res.length; i++) {
 			if (res[i].equals(st)) {
-				DriveLog a = new DriveLog(st,"TF");
+				DriveLog a = new DriveLog(st,"TF",500);
 				x.add(a);
 			} else if (res[i].equals(bw)) {
-				DriveLog a = new DriveLog(bw,"BO");
+				DriveLog a = new DriveLog(bw,"BO",3000);
 				x.add(a);
 			} else if (res[i].equals(fw)) {
-				DriveLog a = new DriveLog(fw,"TO");
+				DriveLog a = new DriveLog(fw,"TO",4000);
 				x.add(a);
 			} else if (res[i].equals(ri)) {
-				DriveLog a = new DriveLog(ri,"RI");
+				DriveLog a = new DriveLog(ri,"RI",500);
 				x.add(a);
 			} else if (res[i].equals(le)) {
-				DriveLog a = new DriveLog(le,"LE");
+				DriveLog a = new DriveLog(le,"LE",600);
 				x.add(a);
 			}
-
 		}
+		
+
+		// if the size of the executor is bigger than 0 means that it has a drive log that needs to be executed
 		if (x.size() > 0) {
 			x.autoExecution();// where the execution of the commands is being
 								// made
+			
+			
 			x.clearAll();
-		} else {
+		}else {
 			System.out.println("Nothing was found");
 		}
 	}

@@ -14,6 +14,7 @@ import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.io.File;
 
+// Class made to get the parent directory of the file 
 public class StringTrim {
 	
 	public String getFolder(String path){
