@@ -119,6 +119,7 @@ public class controller {
         basePanel.setLayout(new BorderLayout());
         mediaPanel = new mediaSurface();
         mediaPanel.setLayout(new BorderLayout());
+        panel.setLayout(new BorderLayout());;
         
         basePanel.add(mediaPanel,BorderLayout.CENTER);
         img = GraphicsEnvironment
@@ -145,6 +146,7 @@ public class controller {
         
         speedPanel.setLayout(new BorderLayout());
         directionPanel.setLayout(new BorderLayout());
+        directionPanel.setPreferredSize(new Dimension(50, 50));
         speeds[0] = "Low";
         speeds[1] = "Medium";
         speeds[2] = "High";
@@ -170,10 +172,12 @@ public class controller {
 
        // forward.setBounds(44, 142, 50, 50);
         forward.setIcon(new ImageIcon(main.class.getResource("/resource/forward0.png")));
+        forward.setHorizontalAlignment(JLabel.CENTER);
         directionPanel.add(forward,BorderLayout.NORTH);
 
        // back.setBounds(44, 264, 50, 50);
         back.setIcon(new ImageIcon(main.class.getResource("/resource/back0.png")));
+        back.setHorizontalAlignment(JLabel.CENTER);
         directionPanel.add(back,BorderLayout.SOUTH);
         
         panel.add(speedPanel,BorderLayout.NORTH);
@@ -182,6 +186,7 @@ public class controller {
        basePanel.add(panel,BorderLayout.WEST);
   
         frame.setContentPane(basePanel);
+        frame.pack();
         frame.setVisible(true);
        mediaPlayerComponent.getMediaPlayer().playMedia("http://192.168.0.1:8000/picam.webm");
               
