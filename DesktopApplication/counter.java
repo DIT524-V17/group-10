@@ -1,9 +1,11 @@
 
-public class counter {
+public class Counter {
 	private String command;
 	private int counter;
+	private DriveLog driveLog;
 
-	public counter(String command){
+	public Counter(String command, DriveLog driveLog){
+		this.driveLog = driveLog;
 		this.command = command;
 		counter = 0;
 	}
@@ -18,5 +20,9 @@ public class counter {
 	}
 	public int getCounter(){
 		return counter;
+	}
+	public DriveLog getDriveLog(){
+		return driveLog;
+		
 	}
 }

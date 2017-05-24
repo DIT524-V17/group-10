@@ -11,14 +11,14 @@ public class Democracy {
 	private DriveLog backward = new DriveLog("@backward","BO",3000);
 	private DriveLog stop = new DriveLog("@stop","TF",500);
 
-	private counter forwardCounter = new counter("@forward", forward);
-	private counter rightCounter = new counter("@right", right);
-	private counter leftCounter = new counter("@left", left);
-	private counter backwardCounter = new counter("@backward", backward);
-	private counter[] counters = new counter[4];
-	private ArrayList<counter> biggestCounters = new ArrayList<counter>();
+	private Counter forwardCounter = new Counter("@forward", forward);
+	private Counter rightCounter = new Counter("@right", right);
+	private Counter leftCounter = new Counter("@left", left);
+	private Counter backwardCounter = new Counter("@backward", backward);
+	private Counter[] counters = new Counter[4];
+	private ArrayList<Counter> biggestCounters = new ArrayList<Counter>();
 	
-	public ArrayList<counter> getCounters(){
+	public ArrayList<Counter> getCounters(){
 		return this.biggestCounters;
 	}
 
