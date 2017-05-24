@@ -20,6 +20,10 @@ import java.awt.event.WindowListener;
 //Author: Ludvig Hygrell
 
 public class main extends JFrame {
+	
+	static int indexCounter = 0;
+	static int sizecount = 0;
+	
 
 	private JPanel contentPane;
 	public static Bluetooth bluetooth;
@@ -120,10 +124,9 @@ public class main extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				clickSound = new Sound("/resource/clickSound.wav");
 				clickSound.play();
-				controller control = new controller();
-                             //   jSTPlay jplayer = new jSTPlay();
-//				control.setFocusable(true);
-//				control.setVisible(true);
+				control control = new control();
+				control.setFocusable(true);
+				control.setVisible(true);
 			}
 		});
 		lblController.setIcon(new ImageIcon(main.class.getResource("/resource/controller.png")));
@@ -146,8 +149,7 @@ public class main extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				clickSound.play();
-				TwitchCommandSend test = new TwitchCommandSend();
-				test.sendCommands("C:/Users/Ludvig/Desktop/t/twitch.txt");
+				TwitchWindow twitchWindow = new TwitchWindow();
 			}
 		});
 		lblTwitch.setBounds(300, 396, 425, 268);
