@@ -1,6 +1,8 @@
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.io.IOException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import javax.bluetooth.BluetoothConnectionException;
@@ -20,10 +22,6 @@ import java.awt.event.WindowListener;
 //Author: Ludvig Hygrell
 
 public class main extends JFrame {
-	
-	static int indexCounter = 0;
-	static int sizecount = 0;
-	
 
 	private JPanel contentPane;
 	public static Bluetooth bluetooth;
@@ -40,6 +38,19 @@ public class main extends JFrame {
 	private Sound clickSound;
 	private Sound mouseoverSound;
 	private Sound tryAgain;
+	
+	private TwitchCommandSend test = new TwitchCommandSend();
+
+	
+	private Runnable commandRunnable = new Runnable() {
+	    public void run() {
+	    	clickSound.play();
+			String twitch = "C:/Users/Iso/Desktop/System Development1/src/resource/#riffslayerboy.Twitch.tv.log";
+			String testis = "C:/Users/Iso/Desktop/System Development1/src/resource/twitch.txt";
+			test.sendCommands(testis);
+//			test.cancel(true);
+	    }
+	};
 
 
 
@@ -145,14 +156,18 @@ public class main extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				lblTwitch.setBounds(300, 396, 425, 268);
 				lblTwitch.setIcon(new ImageIcon(main.class.getResource("/resource/twitch.png")));
+				
 			}
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				clickSound.play();
 				TwitchCommandSend test = new TwitchCommandSend();
-				String twitch = "C:/Users/Ludvig/AppData/Roaming/mIRC/logs/#riffslayerboy.Twitch.tv.log";
-				String testis = "C:/Users/Ludvig/Desktop/t/twitch.txt";
+				String twitch = "C:/Users/Iso/Desktop/System Development1/src/resource/#riffslayerboy.Twitch.tv.log";
+				String testis = "C:/Users/Iso/Desktop/System Development1/src/resource/twitch.txt";
 				test.sendCommands(testis);
+//				test.cancel(true);
+//				ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+//				executor.scheduleAtFixedRate(commandRunnable, 0, 15, TimeUnit.SECONDS);
 			}
 		});
 		lblTwitch.setBounds(300, 396, 425, 268);
