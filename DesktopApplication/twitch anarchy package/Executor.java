@@ -1,27 +1,19 @@
 
+
 /**
  * Creator Martin Chukaleski 03/2017
  */
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
 
 import javax.bluetooth.BluetoothConnectionException;
 import javax.bluetooth.BluetoothStateException;
 
 public class Executor {
 	
-	private DriveLog forward = new DriveLog("@forward","TO",4000);
-	private DriveLog right = new DriveLog("@right","RI",500);
-	private DriveLog left = new DriveLog("@left","LE",600);
-	private DriveLog backward = new DriveLog("@backward","BO",3000);
-	private DriveLog stop = new DriveLog("@stop","TF",500);
-	
-	int subExeCounter = 0;
-	
-	ArrayList<DriveLog> arr = new ArrayList<DriveLog>();
-	static int indexCount = 0;
+	ArrayList<DriveLog> arr = new ArrayList<DriveLog>(); // containing all the drivelog objects that need to be executed
+	private int indexCount = main.indexCounter; // a way to track down where we left of in the execution so we dont execute old commands
 
 	public int size() { // checks the size of the array list
 		return this.arr.size();
@@ -60,114 +52,33 @@ public class Executor {
 	}
 
 	public void autoExecution() {
+		
+		main.sizecount = this.size();
+		
 
-		ArrayList<String> immediately = new ArrayList<String>();
 		for (int i = indexCount; i < this.size(); i++) { // for loop to iterate
 															// thru every
 															// element of the
 															// array list
-
-			// long endTime = System.currentTimeMillis() + this.getTime(i); //
-			// when
-			// do
-			// we
-			// want
-			// the
-			// while
-			// loop
-			// to
-			// stop
-
-			// sending
-			// commands
-
-			// System.out.println(this.size());
-			// System.out.println(this.getCommand(i));
-
-			// System.out.println(this.getCommand(i));
-
-			System.out.println("line: " + i + " single command: " + this.getCommand(i));
-
-			// implementing democracy
-			//if (subExeCounter < 5) {
-			if((i%10)!=0 || i == 0){
-				immediately.add(this.getCommand(i));
-				subExeCounter++;
-				// System.out.println("jj = " + jj + " " + immediately);
-			} else {
-				//i --;
-				immediately.add(this.getCommand(i));
-				//subExeCounter = 0;
-				BestKoreanDemocracy kimJongBest = new BestKoreanDemocracy();
-				String bestDemocracy = kimJongBest.returnDemocracy(immediately);
-				// main.bluetooth.btnPress(this.getCommand(i));
-
-				System.out.println("Driving: " + bestDemocracy);
+				// calling the method to execute the command from the executor object on index i
+				main.bluetooth.btnPress(this.getCommand(i));
 				
-				if(bestDemocracy.equals("TO")){
-					main.bluetooth.btnPress(bestDemocracy);
-					try {
-						TimeUnit.SECONDS.sleep(3);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else if (bestDemocracy.equals("BO")){
-					main.bluetooth.btnPress(bestDemocracy);
-					try {
-						TimeUnit.SECONDS.sleep(3);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else if(bestDemocracy.equals("LE")){
-					try {
-						main.bluetooth.btnPress(bestDemocracy);
-						TimeUnit.MILLISECONDS.sleep(400);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else if(bestDemocracy.equals("RI")){
-					main.bluetooth.btnPress(bestDemocracy);
-					try {
-						TimeUnit.MILLISECONDS.sleep(400);
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}else{
-					main.bluetooth.btnPress(bestDemocracy);
-				}
-				// Timer t = new Timer();
-				// t.timedTask(this.getTime(i));
-				
-//				try {
-//					TimeUnit.MILLISECONDS.sleep(400);
-//				} catch (InterruptedException e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
+				Timer t = new Timer();
+				t.timedTask(this.getTime(i));// waiting for the time to pass and after that sending a stop command to the car
 				
 				main.bluetooth.btnPress("TF");
+		
 				
-				try {
-					TimeUnit.SECONDS.sleep(5);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 
-				immediately = new ArrayList<String>();
-
-			}
-
-			indexCount = this.size(); // having the indexCount as a stored index
+			
+			
+			main.indexCounter = this.size(); // having the indexCount as a stored index
 										// from the object executor so that when
 										// the txt file is updated the program
 			// doesn't execute the old commands only the new ones
 		}
 	}
+	
 
 	public void printF() { // for testing purposes print all commands from
 							// DriveLog objects stored in Execution obj
@@ -175,5 +86,5 @@ public class Executor {
 			System.out.print(x.getCmdtype() + " ");
 		}
 	}
-
+	
 }
