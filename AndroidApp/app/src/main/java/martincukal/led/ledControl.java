@@ -495,10 +495,10 @@ public class ledControl extends AppCompatActivity {
         return true;
     }
 
-//    public void openCam(View v) {
-//        Intent cView = new Intent(ledControl.this, VideoViewCam.class);
-//        startActivity(cView);
-//    }
+    public void openCam(View v) {
+        Intent cView = new Intent(ledControl.this, VideoViewCam.class);
+        startActivity(cView);
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

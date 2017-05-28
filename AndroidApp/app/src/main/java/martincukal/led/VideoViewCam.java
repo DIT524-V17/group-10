@@ -13,7 +13,7 @@ import android.widget.VideoView;
 
 
 /**
- * Created by Mr.Horse on 2017-04-08.
+ * Created by Aleksandar Isakovski
  */
 
 public class VideoViewCam extends AppCompatActivity {
@@ -21,7 +21,6 @@ public class VideoViewCam extends AppCompatActivity {
 
     ProgressDialog pDialog;
     VideoView videoview;
-    ImageButton foreward,backward,left,right;
     String videoURL  = "http://192.168.0.1:8000/picam.webm";
 
 
@@ -29,91 +28,6 @@ public class VideoViewCam extends AppCompatActivity {
 
 
     protected void onCreate(Bundle savedInstanceState) {
-
-        foreward = (ImageButton) findViewById(R.id.forwardBtn);
-        backward = (ImageButton) findViewById(R.id.backwardBtn);
-        left = (ImageButton) findViewById(R.id.leftBtn);
-        right = (ImageButton) findViewById(R.id.rightBtn);
-        //foreward.getBackground().setAlpha(70);
-
-
-
-//        foreward.setOnTouchListener(new  View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch(event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Do something
-//                        ledControl.moveforward();
-//
-//                        return true;
-//                    case MotionEvent.ACTION_UP:
-//                        // No longer down
-//                        stop();
-//                        return true;
-//                }
-//                return false;
-//            }
-//
-//        });
-//
-//        backward.setOnTouchListener(new  View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch(event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Do something
-//                        method.movebackward();
-//
-//                        return true;
-//                    case MotionEvent.ACTION_UP:
-//                        // No longer down
-//                        method.stop();
-//                        return true;
-//                }
-//                return false;
-//            }
-//
-//        });
-//
-//        left.setOnTouchListener(new  View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch(event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Do something
-//                        method.moveleft();
-//
-//                        return true;
-//                    case MotionEvent.ACTION_UP:
-//                        // No longer down
-//                        method.stop();
-//                        return true;
-//                }
-//                return false;
-//            }
-//
-//        });
-//
-//        right.setOnTouchListener(new  View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                switch(event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        // Do something
-//                        method.moveright();
-//
-//                        return true;
-//                    case MotionEvent.ACTION_UP:
-//                        // No longer down
-//                        method.stop();
-//                        return true;
-//                }
-//                return false;
-//            }
-//
-//        });
-
 
         super.onCreate(savedInstanceState);
 

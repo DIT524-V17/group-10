@@ -23,7 +23,7 @@ import android.bluetooth.BluetoothDevice;
 
 public class DeviceList extends AppCompatActivity {
     //Widgets
-    Button btnPaired, camera;
+    Button btnPaired;
     ListView devicelist;
     //BlueTooth
     private BluetoothAdapter myBluetooth = null;
@@ -103,10 +103,5 @@ public class DeviceList extends AppCompatActivity {
         }
     };
 
-
-//    public void openCam(View v) {
-//        Intent cView = new Intent(DeviceList.this, VideoViewCam.class);
-//        startActivity(cView);
-//    }
 }
 
