@@ -1,10 +1,12 @@
+// Created by Martin Chikaleski and Aleksandar Isakovksi
+  
   //LIBS
 #include <Smartcar.h>
 
 
 #define led 5
 #define SRPC Serial
-#define SRBT Serial3
+#define SRBT Serial3 //bluetooth serial
 
 //OBJECTS
 Gyroscope gyro;
@@ -45,6 +47,7 @@ unsigned int distance,distance2;
     BackSonarSensor.attach(TRIGGER_PIN2, ECHO_PIN2);
   }
 
+  // geting strings fetched trough serial later used for car command
   void loop()
   {  
     if (SRBT.available() > 0) 
@@ -65,6 +68,8 @@ unsigned int distance,distance2;
       
       delay(1);
     }
+
+    // statements for calling methods for car movement and LAD's activation on sertain commands
     if(string =="TF")
     {
         stopcar();
@@ -123,6 +128,7 @@ unsigned int distance,distance2;
       obsAvoid = false;     
       obsAvoid2 = false;
     }
+    // obstacle avoidance front sensor
     if(obsAvoid){
       distance = SonarSensor.getDistance();
       car.getSpeed();
@@ -153,6 +159,8 @@ unsigned int distance,distance2;
         
       }
     }
+
+   // obstacle avoidance back sensor
     if(obsAvoid2){
       distance2 = BackSonarSensor.getDistance();
       car.getSpeed();
@@ -182,7 +190,8 @@ unsigned int distance,distance2;
       }
     }
  }
- 
+
+ // car movement methods
 void moveforward()
    {
       car.setSpeed(speedd);
