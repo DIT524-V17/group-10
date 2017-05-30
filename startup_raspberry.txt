@@ -1,0 +1,41 @@
+* Operating system used is NOOBS.
+
+* Installing Raspbian with NOOBS from:
+  Link:https://www.raspberrypi.org/downloads/noobs/
+
+
+
+* SD card formatted using SD card formatter
+Link: https://www.sdcard.org/downloads/formatter_4/
+
+*Enabling SSH
+
+* Enter sudo raspi-config in a terminal window
+* Select Interfacing Options
+* Navigate to and select SSH
+* Choose Yes
+* Select Ok
+* Choose Finish
+
+
+CHANGE PASSWORD
+
+* sudo raspi-config
+* Get blue screen with options in a grey box in the centre.
+* Select Change User Password
+* Type chosen Pass
+* Select ok
+* Finish
+ You can remove the password for the user bob with sudo passwd bob -d.
+
+
+
+Enable the Raspberry pi camera
+
+* sudo raspi-config
+* Get blue screen with options 
+* Choose Enable Camera 
+* Select ok
+* Finish
+
+  
